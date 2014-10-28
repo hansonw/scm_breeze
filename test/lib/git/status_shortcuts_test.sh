@@ -53,6 +53,7 @@ test_scmb_expand_args() {
   assertEquals "$error" "$(printf 'one\tthree\tseven')" "$(scmb_expand_args 1 3 7)"
   assertEquals "$error" "$(printf 'one\ttwo\tthree\tsix')" "$(scmb_expand_args 1-3 6)"
   assertEquals "$error" "$(printf 'seven\ttwo\tthree\tfour\tfive\tone')" "$(scmb_expand_args seven 2-5 1)"
+  assertEquals "$error" "$(printf 'one^\ttwo~2\tthree^^')" "$(scmb_expand_args 1^ 2~2 3^^)"
 
   # Test that any args with spaces remain quoted
   assertEquals "$error" "$(printf -- '-m\tTest Commit Message\tone')" "$(scmb_expand_args -m "Test Commit Message" 1)"

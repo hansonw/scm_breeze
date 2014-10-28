@@ -12,7 +12,7 @@ fi
 
 # Strip color codes from a string
 strip_colors() {
-  sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"
+  sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})*)?[m|K]//g"
 }
 
 # Print space separated tab completion options
@@ -25,6 +25,15 @@ silentGitCommands() {
 # Cancel silent git commands
 verboseGitCommands() {
   unset -f git
+}
+
+# Silence hg commands
+silentHgCommands() {
+  hg() { /usr/bin/env hg "$@" > /dev/null 2>&1; }
+}
+# Cancel silent hg commands
+verboseHgCommands() {
+  unset -f hg
 }
 
 # Asserts
