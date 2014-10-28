@@ -13,7 +13,7 @@ disable_nullglob() { if [ $shell = "zsh" ]; then unsetopt NULL_GLOB; else shopt 
 _safe_alias(){ alias "$@" 2> /dev/null; }
 _alias() {
   if [ -n "$1" ]; then
-    local alias_str="$1"; shift; local cmd="$@"
+    local alias_str="$1"; shift; local cmd="$*"
     _safe_alias $alias_str="$cmd"
   fi
 }
