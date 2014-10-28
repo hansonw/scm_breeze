@@ -1,0 +1,15 @@
+#
+# Hg File Shortcuts Config
+# ----------------------------------------------
+# - Set your preferred prefix for env variable file shortcuts.
+#   (I chose 'e' because it is easy to slide your finger to it from '$'.)
+export hg_env_char="e"
+# - Max changed files before reverting to 'hg status'. hg_status_shortcuts() will be slower for lots of changed files.
+export hs_max_changes="150"
+
+# Hg Aliases
+# ----------------------------------------------
+hg_alias="h"
+
+hg_sl_alias="hl"
+hg_status_alias="hs"

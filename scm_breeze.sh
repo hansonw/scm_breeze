@@ -17,7 +17,6 @@ source "$scmbDir/lib/design.sh"
 if [[ -s "$HOME/.git.scmbrc" ]]; then
   # Load git config
   source "$HOME/.git.scmbrc"
-  source "$scmbDir/lib/git/helpers.sh"
   source "$scmbDir/lib/git/aliases.sh"
   source "$scmbDir/lib/git/keybindings.sh"
   source "$scmbDir/lib/git/status_shortcuts.sh"
@@ -33,3 +32,11 @@ if [[ -s "$HOME/.git.scmbrc" ]]; then
   fi
 fi
 
+# Hg
+# ------------------------------------------------------------
+if [[ -s "$HOME/.hg.scmbrc" ]]; then
+  # Load hg config
+  source "$HOME/.hg.scmbrc"
+  source "$scmbDir/lib/hg/aliases.sh"
+  source "$scmbDir/lib/hg/handler.sh"
+fi

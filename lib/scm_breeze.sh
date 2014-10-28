@@ -13,7 +13,7 @@ disable_nullglob() { if [ $shell = "zsh" ]; then unsetopt NULL_GLOB; else shopt 
 _safe_alias(){ alias "$@" 2> /dev/null; }
 _alias() {
   if [ -n "$1" ]; then
-    local alias_str="$1"; local cmd="$2"
+    local alias_str="$1"; shift; local cmd="$@"
     _safe_alias $alias_str="$cmd"
   fi
 }
@@ -27,6 +27,31 @@ find_binary(){
 }
 
 export GIT_BINARY=$(find_binary git)
+
+function find_in_cwd_or_parent() {
+  local slashes=${PWD//[^\/]/}; local directory=$PWD;
+  for (( n=${#slashes}; n>0; --n )); do
+    test -e "$directory/$1" && echo "$directory/$1" && return 0
+    directory="$directory/.."
+  done
+  return 1
+}
+
+function fail_if_not_git_repo() {
+  if ! find_in_cwd_or_parent ".git" > /dev/null; then
+    echo -e "\033[31mNot a git repository (or any of the parent directories)\033[0m"
+    return 1
+  fi
+  return 0
+}
+
+function fail_if_not_hg_repo() {
+  if ! find_in_cwd_or_parent ".hg" > /dev/null; then
+    echo -e "\033[31mNot a hg repository (or any of the parent directories)\033[0m"
+    return 1
+  fi
+  return 0
+}
 
 # Updates SCM Breeze from GitHub.
 update_scm_breeze() {
@@ -46,7 +71,7 @@ update_scm_breeze() {
 _create_or_patch_scmbrc() {
   patchfile=$(mktemp -t tmp.XXXXXXXXXX)
   # Process '~/.scmbrc' and '~/.*.scmbrc'
-  for prefix in "" "git."; do
+  for prefix in "" "git." "hg."; do
     # Create file from example if it doesn't already exist
     if ! [ -e "$HOME/.$prefix""scmbrc" ]; then
       cp "$scmbDir/$prefix""scmbrc.example" "$HOME/.$prefix""scmbrc"
