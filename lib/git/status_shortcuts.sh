@@ -123,9 +123,10 @@ scmb_expand_args() {
   fi
 
   first=1
+  REGEX='^[0-9]{0,4}(\^|~[0-9]+)?$'
   OLDIFS="$IFS"; IFS=" " # We need to split on spaces to loop over expanded range
   for arg in "$@"; do
-    if [[ "$arg" =~ '^[0-9]{0,4}(\^|~[0-9]+)?$' ]] ; then      # Substitute $e{*} variables for any integers
+    if [[ "$arg" =~ $REGEX ]] ; then      # Substitute $e{*} variables for any integers
       if [ "$first" -eq 1 ]; then first=0; else printf '\t'; fi
       if [ -e "$arg" ]; then
         # Don't expand files or directories with numeric names
