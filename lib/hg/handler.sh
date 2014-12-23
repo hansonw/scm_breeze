@@ -4,7 +4,13 @@ hg_handler() {
   fail_if_not_hg_repo || return 1
   zsh_compat # Ensure shwordsplit is on for zsh
   # Run ruby script, store output
-  local cmd_output="$(/usr/bin/env ruby "$scmbDir/lib/hg/${CMD}_handler.rb" $@)"
+  cmd_output=`/usr/bin/env ruby "$scmbDir/lib/hg/${CMD}_handler.rb" $@`
+  code=$?
+  if [ $code -ne 0 ]; then
+    # silently fall back
+    hg $CMD $@
+    return 1
+  fi
   # Print debug information if $scmbDebug = "true"
   if [ "${scmbDebug:-}" = "true" ]; then
     printf "${CMD}_handler.rb output => \n$cmd_output\n------------------------\n"

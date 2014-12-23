@@ -4,13 +4,8 @@
 $:.unshift File.join(File.dirname(__FILE__))
 require 'common.rb'
 
-if ARGV.length > 0
-  # Let the usual handler take care of it.
-  exit
-end
-
 @project_root = hg_root
-@hg_status = `\hg status 2> /dev/null`
+@hg_status = `\hg status #{ARGV.join(' ')} 2> /dev/null`
 
 @changes = @hg_status.split("\n")
 # Exit if too many changes
@@ -29,6 +24,8 @@ end
 # Index modification states
 max_len = ("[%d]" % @changes.length).length
 @changes.each do |change|
+  exit 1 if change[1] != 32
+
   colored =
     case change[0, 1]
     when 'M'; change.bold
