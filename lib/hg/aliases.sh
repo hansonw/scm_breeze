@@ -10,7 +10,10 @@ export _hg_cmd="$(\which hg)"
 function hg(){
   # Only expand args for hg commands that deal with paths or branches
   case $1 in
-    commit|blame|add|log|rebase|forget|up|diff|rm|revert|mv|strip|export|remove|uncommit|bookmark|histedit)
+    rebase|strip)
+      rm -f `find_in_cwd_or_parent ".hg"`/.sl_sha;
+      exec_scmb_expand_args "$_hg_cmd" "$@";;
+    commit|blame|add|log|forget|up|diff|rm|revert|mv|export|remove|uncommit|bookmark|histedit|chistedit)
       exec_scmb_expand_args "$_hg_cmd" "$@";;
     *)
       "$_hg_cmd" "$@";;
