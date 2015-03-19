@@ -46,5 +46,5 @@ print "@@filelist@@::"
 puts @output_files.map {|f|
   # If file starts with a '~', treat it as a relative path.
   # This is important when dealing with symlinks
-  f.start_with?("~") ? f.sub(/~/, '') : File.join(@project_root, f)
+  f.start_with?("~") ? f.sub(/~/, '') : f
 }.join("|")

@@ -15,16 +15,17 @@ output_file = File.join(@project_root, '.hg/.sl_output')
 output = nil
 reflog = File.join(@project_root, '.hg/reflog')
 bookmarks = File.join(@project_root, '.hg/bookmarks')
+remote = File.join(@project_root, '.hg/remotenames')
 if File.exists?(sha_file) && File.exists?(output_file)
-  hash = `shasum #{reflog} #{bookmarks} 2> /dev/null`
+  hash = `shasum #{reflog} #{bookmarks} #{remote} 2> /dev/null`
   if hash == open(sha_file).read
     output = open(output_file).read
   end
 end
 
 if output.nil?
-  system("shasum #{reflog} #{bookmarks} > #{sha_file} 2> /dev/null")
-  system("hg sl --color always > %s 2> /dev/null" % output_file)
+  system("shasum #{reflog} #{bookmarks} #{remote} > #{sha_file} 2> /dev/null")
+  system("hg sl --all --color always > %s 2> /dev/null" % output_file)
   output = open(output_file).read
 end
 
