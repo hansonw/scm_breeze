@@ -24,7 +24,7 @@ end
 # Index modification states
 max_len = ("[%d]" % @changes.length).length
 @changes.each do |change|
-  exit 1 if change[1] != 32
+  exit 1 if change[1].ord != 32
 
   colored =
     case change[0, 1]
