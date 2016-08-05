@@ -13,7 +13,7 @@ end
 sha_file = File.join(@project_root, '.hg/.sl_sha')
 output_file = File.join(@project_root, '.hg/.sl_output')
 output = nil
-reflog = File.join(@project_root, '.hg/reflog')
+reflog = File.join(@project_root, '.hg/journal')
 bookmarks = File.join(@project_root, '.hg/bookmarks')
 remote = File.join(@project_root, '.hg/remotenames')
 if File.exists?(sha_file) && File.exists?(output_file)
@@ -41,7 +41,7 @@ output.split("\n").each do |line|
   end
 
   # Strip out bash control characters
-  text = line.gsub %r{\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]}, ''
+  text = line.gsub %r{\x1B\[([0-9]{1,2}(;[0-9]{1,2})*)?[m|K]}, ''
   num = ""
   prev_num = false
   if m = %r{^[^a-np-zA-Z0-9]*\s+([a-z0-9]{6,})\s+([a-z])+}.match(text)
