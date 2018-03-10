@@ -13,18 +13,18 @@ end
 sha_file = File.join(@project_root, '.hg/.sl_sha')
 output_file = File.join(@project_root, '.hg/.sl_output')
 output = nil
-reflog = File.join(@project_root, '.hg/journal')
+blackbox = File.join(@project_root, '.hg/undo.desc')
 bookmarks = File.join(@project_root, '.hg/bookmarks')
 remote = File.join(@project_root, '.hg/remotenames')
 if File.exists?(sha_file) && File.exists?(output_file)
-  hash = `shasum #{reflog} #{bookmarks} #{remote} 2> /dev/null`
+  hash = `shasum #{blackbox} #{bookmarks} #{remote} 2> /dev/null`
   if hash == open(sha_file).read
     output = open(output_file).read
   end
 end
 
 if output.nil?
-  system("shasum #{reflog} #{bookmarks} #{remote} > #{sha_file} 2> /dev/null")
+  system("shasum #{blackbox} #{bookmarks} #{remote} > #{sha_file} 2> /dev/null")
   system("hg sl --all --color always > %s 2> /dev/null" % output_file)
   output = open(output_file).read
 end

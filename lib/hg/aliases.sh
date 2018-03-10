@@ -13,10 +13,8 @@ function hg(){
     rebase|strip)
       rm -f `find_in_cwd_or_parent ".hg"`/.sl_sha;
       exec_scmb_expand_args "$_hg_cmd" "$@";;
-    commit|blame|add|log|forget|up|diff|rm|revert|mv|export|remove|uncommit|bookmark|histedit|chistedit|record|crecord|cp)
-      exec_scmb_expand_args "$_hg_cmd" "$@";;
     *)
-      "$_hg_cmd" "$@";;
+      exec_scmb_expand_args "$_hg_cmd" "$@";;
   esac
 }
 
