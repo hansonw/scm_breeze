@@ -10,7 +10,7 @@ export _hg_cmd="$(\which hg)"
 function hg(){
   # Only expand args for hg commands that deal with paths or branches
   case $1 in
-    rebase|strip)
+    rebase|strip|sl)
       rm -f `find_in_cwd_or_parent ".hg"`/.sl_sha;
       exec_scmb_expand_args "$_hg_cmd" "$@";;
     *)
